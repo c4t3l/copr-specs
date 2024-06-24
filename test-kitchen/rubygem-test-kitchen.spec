@@ -2,7 +2,7 @@
 %global gem_name test-kitchen
 
 Name: rubygem-%{gem_name}
-Version: 3.3.2
+Version: 3.6.0
 Release: 1%{?dist}
 Summary: An integration tool for testing infrastructure code
 License: Apache-2.0
@@ -10,7 +10,7 @@ URL: https://kitchen.ci/
 Source0: https://rubygems.org/gems/%{gem_name}-%{version}.gem
 BuildRequires: ruby(release)
 BuildRequires: rubygems-devel
-BuildRequires: ruby >= 2.6
+BuildRequires: ruby >= 3.3
 # BuildRequires: rubygem(rb-readline)
 # BuildRequires: rubygem(aruba) >= 0.11
 # BuildRequires: rubygem(aruba) < 3.0
@@ -89,5 +89,8 @@ popd
 %{gem_instdir}/test-kitchen.gemspec
 
 %changelog
+* Sun Jun 23 2024 Robby Callicotte <rcallicotte@fedoraproject.org> - 3.6.0-1
+- Rebased to new version
+
 * Sat Sep 10 2022 Robby Callicotte <rcallicotte@fedoraproject.org> - 3.3.2-1
 - Initial package

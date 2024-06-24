@@ -49,10 +49,10 @@ Documentation for %{name}.
 %prep
 %setup -q -n %{gem_name}-%{version} -b1
 
-%patch2 -p1
+%patch 2 -p1
 pushd %{_builddir}
-%patch0 -p1
-%patch1 -p1
+%patch 0 -p1
+%patch 1 -p1
 popd
 
 %build
