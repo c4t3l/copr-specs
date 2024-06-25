@@ -1,9 +1,11 @@
 # Generated from bcrypt_pbkdf-1.0.0.gem by gem2rpm -*- rpm-spec -*-
 %global gem_name bcrypt_pbkdf
 
+%bcond_with tests
+
 Name: rubygem-%{gem_name}
 Version: 1.1.0
-Release: 6%{?dist}
+Release: 7%{?dist}
 Summary: OpenBSD's bcrypt_pdkfd (a variant of PBKDF2 with bcrypt-based PRF)
 # BSD license in files:
 #   ext/mri/hash_sha512.c
@@ -21,7 +23,10 @@ BuildRequires: ruby-devel
 # https://fedoraproject.org/wiki/Packaging:C_and_C++#BuildRequires_and_Requires
 BuildRequires: gcc
 BuildRequires: rubygem(rake-compiler) >= 0.9.7
+
+%if %{with tests}
 BuildRequires: rubygem(minitest) >= 5
+%endif
 
 %description
 This gem implements bcrypt_pdkfd (a variant of PBKDF2 with bcrypt-based
@@ -54,10 +59,12 @@ cp -a .%{gem_extdir_mri}/{gem.build_complete,*.so} %{buildroot}%{gem_extdir_mri}
 # Prevent dangling symlink in -debuginfo (rhbz#878863).
 rm -rf %{buildroot}%{gem_instdir}/ext/
 
+%if %{with tests}
 %check
 pushd .%{gem_instdir}
 ruby -Itest:$(dirs +1)%{gem_extdir_mri} -e 'Dir.glob "./test/**/*_test.rb", &method(:require)'
 popd
+%endif
 
 %files
 %dir %{gem_instdir}
@@ -78,6 +85,9 @@ popd
 %{gem_instdir}/test
 
 %changelog
+* Tue Jun 25 2024 Robby Callicotte <rcallicotte@fedoraproject.org> - 1.1.0-7
+- Disabled minitest
+
 * Fri Jan 20 2023 Fedora Release Engineering <releng@fedoraproject.org> - 1.1.0-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_38_Mass_Rebuild
 

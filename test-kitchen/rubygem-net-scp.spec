@@ -1,9 +1,10 @@
 %global gem_name net-scp
 
+%bcond_with tests
 Summary: A pure Ruby implementation of the SCP client protocol
 Name: rubygem-%{gem_name}
 Version: 4.0.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: MIT
 URL: https://github.com/net-ssh/net-scp
 Source0: http://rubygems.org/gems/%{gem_name}-%{version}.gem
@@ -14,8 +15,12 @@ Source1: %{gem_name}-%{version}-test.txz
 BuildRequires: ruby(release)
 BuildRequires: rubygems-devel
 BuildRequires: rubygem(net-ssh)
+
+%if %{with tests}
 BuildRequires: rubygem(mocha)
 BuildRequires: rubygem(test-unit)
+%endif
+
 BuildArch: noarch
 
 %description
@@ -41,12 +46,14 @@ mkdir -p %{buildroot}%{gem_dir}
 cp -pa .%{gem_dir}/* \
         %{buildroot}%{gem_dir}/
 
+%if %{with tests}
 %check
 pushd .%{gem_instdir}
 ln -s %{_builddir}/test .
 
 ruby -Ilib:test test/test_all.rb
 popd
+%endif
 
 %files
 %dir %{gem_instdir}
@@ -68,6 +75,9 @@ popd
 %doc %{gem_docdir}
 
 %changelog
+* Tue Jun 25 2024 Robby Callicotte <rcallicotte@fedoraproject.org> - 4.0.0-2
+- Removed tests
+
 * Sun Jun 23 2024 Robby Callicotte <rcallicotte@fedoraproject.org> - 4.0.0-1
 - Rebased to new version
 
